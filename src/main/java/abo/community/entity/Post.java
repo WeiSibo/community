@@ -7,23 +7,27 @@ import lombok.Data;
 
 /**
  * @author abo
- * @date 2020/2/10 9:28
+ * @date 2020/2/18 20:49
  * @remarks
  **/
 @Data
-@TableName(value = "user")
-public class User {
+@TableName(value = "post")
+public class Post {
     @TableId(value = "id")
     private Integer id;
-    private String name;
-    @TableField(value = "account_id")
-    private String accountId;
-    private String token;
+    private String title;
+    private String context;
+    private String tag;
     @TableField(value = "gmt_create")
     private Long gmtCreate;
     @TableField(value = "gmt_modified")
     private Long gmtModified;
-    @TableField(value = "avatar_url")
-    private String avatarUrl;
+    private Integer creator;
+    @TableField(value = "view_count")
+    private Integer viewCount;
+    @TableField(value = "comment_count")
+    private Integer commentCount;
+    @TableField(value = "like_count")
+    private Integer likeCount;
 
 }

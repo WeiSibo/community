@@ -1,6 +1,6 @@
 package abo.community.provider;
 
-import abo.community.dto.AccessTokenDTO;
+import abo.community.dto.AccessToken;
 import abo.community.dto.GithubUser;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -14,7 +14,7 @@ import static okhttp3.Request.*;
 @Component
 public class GithubProvider {
 
-   public String getAccessToken(@JSONField(name = "accesstoken")AccessTokenDTO accessTokenDTO) throws IOException {
+   public String getAccessToken(@JSONField(name = "accesstoken") AccessToken accessTokenDTO) throws IOException {
        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
        OkHttpClient client = new OkHttpClient();
 
