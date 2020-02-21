@@ -22,7 +22,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">发布 - 云社区</span>
             </button>
-            <a class="navbar-brand" href="#">云社区</a>
+            <a class="navbar-brand" href="/">云社区</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group">
                     <label for="context">内容</label>
-                    <textarea class="form-control" cols="30" rows="10"  id="context" name="context" th:value="${context}"></textarea>
+                    <textarea class="form-control" cols="30" rows="10"  id="context" name="context" th:text="${context}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标签</label>

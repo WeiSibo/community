@@ -23,6 +23,7 @@ public class User {
     private Long gmtCreate;
     @TableField(value = "gmt_modified")
     private Long gmtModified;
+    private String bio;
     @TableField(value = "avatar_url")
     private String avatarUrl;
 
