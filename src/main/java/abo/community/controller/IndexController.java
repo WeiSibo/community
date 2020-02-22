@@ -1,5 +1,6 @@
 package abo.community.controller;
 
+import abo.community.dto.PaginationDTO;
 import abo.community.dto.PostDTO;
 import abo.community.entity.Post;
 import abo.community.entity.User;
@@ -11,9 +12,11 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -27,7 +30,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "6") Integer size){
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
             for(Cookie cookie: cookies){
@@ -42,8 +47,8 @@ public class IndexController {
             }
         }
 
-        List<PostDTO> postList = postService.list();
-        model.addAttribute("posts",postList);
+        PaginationDTO paginationDTO = postService.list(page,size);
+        model.addAttribute("pagination",paginationDTO);
         return "index";
     }
 }

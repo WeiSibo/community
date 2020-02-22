@@ -15,6 +15,8 @@ import java.util.List;
  **/
 public interface PostMapper extends BaseMapper<Post> {
 
+//    @Select("SELECT * FROM post")
+//    IPage<Post> list(Page<?> page, Integer state);
     @Select("SELECT * FROM post")
-    IPage<Post> list(Page<?> page, Integer state);
+    List<Post> list();
 }
