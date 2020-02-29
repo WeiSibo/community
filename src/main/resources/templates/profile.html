@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--    <link rel="stylesheet" href="../static/css/bootstrap.css">-->
+    <!--    <link rel="stylesheet" href="../static/css/bootstrap-theme.css">-->
+    <!--    <script src="../static/js/bootstrap.js"></script>-->
+
+    <!--      使用bootstrap引入资源文件  直接从static里拖拽过来  -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div th:insert="navigation :: nav"></div>
+
+<div class="container-fluid main profile">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <h2><span th:text="${sectionName}"></span></h2>
+            <hr>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+            <div class="list-group section">
+                <a href="/profile/posts"  th:class="${section == 'posts'}? 'list-group-item active': 'list-group-item' ">我发布的帖子</a>
+                <a href="/profile/replies" class="list-group-item" th:class="${section == 'replies'}? 'list-group-item active': 'list-group-item' ">
+                    最新回复
+                    <span class="badge">10</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
