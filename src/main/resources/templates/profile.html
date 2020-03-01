@@ -24,6 +24,48 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
+            <div class="media" th:each="post: ${pagination.posts}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-circle" th:src="${post.user.avatarUrl}" >
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${post.title}"></h4>
+                    <span th:text="${post.context}"></span><br>
+                    <span class="text-context">[[${post.commentCount}]] 个回复 · [[${post.viewCount}]] 次浏览 · <span th:text="${#dates.format(post.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
+                </div>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li th:if="${pagination.showFirstPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.showPrevious}">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+
+                    <li th:each="page: ${pagination.pages}" th:class="${pagination.currentPage == page}? 'active': '' ">
+                        <a  th:href="@{'/profile/'+${section}(page=${page})}">[[${page}]]</a>
+                    </li>
+
+                    <li th:if="${pagination.showNext}">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.currentPage + 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.showEndPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.getTotalPage()})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
             <div class="list-group section">

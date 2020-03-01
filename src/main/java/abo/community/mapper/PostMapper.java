@@ -19,4 +19,5 @@ public interface PostMapper extends BaseMapper<Post> {
 //    IPage<Post> list(Page<?> page, Integer state);
     @Select("SELECT * FROM post")
     List<Post> list();
+
 }

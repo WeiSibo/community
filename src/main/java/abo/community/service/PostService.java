@@ -52,4 +52,28 @@ public class PostService {
         paginationDTO.setPagination(Integer.valueOf(totalPage), page, size);
         return paginationDTO;
     }
+
+    public PaginationDTO list(Integer id, Integer page, Integer size) {
+        QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("creator", id);
+        Page<Post> myPage = new Page<>(page, size);
+        IPage<Post> iPage = postMapper.selectPage(myPage, queryWrapper);
+
+        List<Post> posts = iPage.getRecords();
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+        for(Post post: posts){
+            User user = userMapper.findById(post.getCreator());
+            PostDTO postDTO = new PostDTO();
+            BeanUtils.copyProperties(post, postDTO);
+            postDTO.setUser(user);
+            postDTOList.add(postDTO);
+        }
+        paginationDTO.setPosts(postDTOList);
+        Long total = iPage.getPages();
+        int totalPage = total.intValue();
+        paginationDTO.setPagination(Integer.valueOf(totalPage), page, size);
+        return paginationDTO;
+    }
 }

@@ -5,6 +5,7 @@ import abo.community.dto.GithubUser;
 import abo.community.entity.User;
 import abo.community.mapper.UserMapper;
 import abo.community.provider.GithubProvider;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -56,8 +57,17 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
             user.setBio(githubUser.getBio());
-            userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));
+
+            QueryWrapper queryWrapper = new QueryWrapper();
+            queryWrapper.eq("account_id", user.getAccountId());
+            User temp = userMapper.selectOne(queryWrapper);
+
+            if(temp == null){
+                userMapper.insert(user);
+                response.addCookie(new Cookie("token",token));
+            }else{
+                response.addCookie(new Cookie("token", temp.getToken()));
+            }
             return "redirect:/";
         }else{
             //登录失败，重新登陆
