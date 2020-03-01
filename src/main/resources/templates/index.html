@@ -31,7 +31,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${post.title}"></h4>
+                    <h4 class="media-heading" >
+                        <a th:href="@{'/post/' + ${post.id}}" th:text="${post.title}"></a>
+                    </h4>
                     <span th:text="${post.context}"></span><br>
                     <span class="text-context">[[${post.commentCount}]] 个回复 · [[${post.viewCount}]] 次浏览 · <span th:text="${#dates.format(post.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>

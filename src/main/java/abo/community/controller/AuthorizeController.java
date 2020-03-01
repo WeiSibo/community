@@ -5,6 +5,7 @@ import abo.community.dto.GithubUser;
 import abo.community.entity.User;
 import abo.community.mapper.UserMapper;
 import abo.community.provider.GithubProvider;
+import abo.community.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,8 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
 
-    @Autowired(required = false)
-    private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -57,21 +58,23 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
             user.setBio(githubUser.getBio());
-
-            QueryWrapper queryWrapper = new QueryWrapper();
-            queryWrapper.eq("account_id", user.getAccountId());
-            User temp = userMapper.selectOne(queryWrapper);
-
-            if(temp == null){
-                userMapper.insert(user);
-                response.addCookie(new Cookie("token",token));
-            }else{
-                response.addCookie(new Cookie("token", temp.getToken()));
-            }
+            userService.createOrUpdate(user);
+            response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else{
             //登录失败，重新登陆
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

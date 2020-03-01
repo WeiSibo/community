@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -25,6 +27,16 @@ public class PublishController {
 
     @GetMapping("/publish")
     public String publish(){
+        return "publish";
+    }
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id") Integer id,
+                       Model model){
+        Post post = postMapper.selectById(id);
+        model.addAttribute("title", post.getTitle());
+        model.addAttribute("context", post.getContext());
+        model.addAttribute("tag", post.getTag());
         return "publish";
     }
 

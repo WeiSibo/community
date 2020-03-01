@@ -76,4 +76,13 @@ public class PostService {
         paginationDTO.setPagination(Integer.valueOf(totalPage), page, size);
         return paginationDTO;
     }
+
+    public PostDTO getById(Integer id){
+        Post post = postMapper.selectById(id);
+        PostDTO postDTO = new PostDTO();
+        BeanUtils.copyProperties(post, postDTO);
+        User user = userMapper.selectById(post.getCreator());
+        postDTO.setUser(user);
+        return postDTO;
+    }
 }
