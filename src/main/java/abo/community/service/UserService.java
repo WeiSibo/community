@@ -21,6 +21,8 @@ public class UserService {
         queryWrapper.eq("account_id", user.getAccountId());
         User temp = userMapper.selectOne(queryWrapper);
         if(temp == null){
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
         }else{
             user.setGmtCreate(temp.getGmtCreate());

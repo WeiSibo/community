@@ -1,8 +1,10 @@
 package abo.community.controller;
 
+import abo.community.dto.PostDTO;
 import abo.community.entity.Post;
 import abo.community.entity.User;
 import abo.community.mapper.PostMapper;
+import abo.community.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class PublishController {
     @Autowired(required = false)
     private PostMapper postMapper;
 
+    @Autowired
+    private PostService postService;
+
     @GetMapping("/publish")
     public String publish(){
         return "publish";
@@ -33,10 +38,11 @@ public class PublishController {
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Integer id,
                        Model model){
-        Post post = postMapper.selectById(id);
+        PostDTO post = postService.getById(id);
         model.addAttribute("title", post.getTitle());
         model.addAttribute("context", post.getContext());
         model.addAttribute("tag", post.getTag());
+        model.addAttribute("id", post.getId());
         return "publish";
     }
 
@@ -44,6 +50,7 @@ public class PublishController {
     public String doPublish(@RequestParam(value = "title",required = false) String title,
                             @RequestParam(value = "context",required = false) String context,
                             @RequestParam(value = "tag",required = false) String tag,
+                            @RequestParam(value = "id", required = false) Integer id,
                             HttpServletRequest request,
                             Model model){
         model.addAttribute("title",title);
@@ -74,10 +81,8 @@ public class PublishController {
         post.setContext(context);
         post.setTag(tag);
         post.setCreator(user.getId());
-        post.setGmtCreate(System.currentTimeMillis());
-        post.setGmtModified(System.currentTimeMillis());
-
-        postMapper.insert(post);
+        post.setId(id);
+        postService.createOrUpdate(post);
         return "redirect:/";
     }
 }

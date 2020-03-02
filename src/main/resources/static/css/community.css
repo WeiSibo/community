@@ -39,3 +39,7 @@ body{
 .navigation-name-font{
     color: black;
 }
+
+.jumbotron{
+    margin: 50px;
+}
