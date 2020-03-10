@@ -4,16 +4,21 @@ import abo.community.dto.PaginationDTO;
 import abo.community.dto.PostDTO;
 import abo.community.entity.Post;
 import abo.community.entity.User;
+import abo.community.exception.CustomizeErrorCode;
+import abo.community.exception.CustomizeException;
 import abo.community.mapper.PostMapper;
 import abo.community.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +84,9 @@ public class PostService {
 
     public PostDTO getById(Integer id){
         Post post = postMapper.selectById(id);
+        if(post == null){
+            throw new CustomizeException(CustomizeErrorCode.POST_NOT_FOUND);
+        }
         PostDTO postDTO = new PostDTO();
         BeanUtils.copyProperties(post, postDTO);
         User user = userMapper.selectById(post.getCreator());
@@ -93,7 +101,15 @@ public class PostService {
             postMapper.insert(post);
         }else{
             post.setGmtModified(System.currentTimeMillis());
-            postMapper.updateById(post);
+            int updated = postMapper.updateById(post);
+            if(updated != 1){
+                throw new CustomizeException(CustomizeErrorCode.POST_NOT_FOUND);
+            }
         }
+    }
+
+    public void incView(Integer id) {
+        //如果有人要刷阅读量，在这里制止！
+        postMapper.updateViewCount(id);
     }
 }

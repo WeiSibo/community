@@ -4,7 +4,9 @@ import abo.community.entity.Post;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -15,9 +17,8 @@ import java.util.List;
  **/
 public interface PostMapper extends BaseMapper<Post> {
 
-//    @Select("SELECT * FROM post")
-//    IPage<Post> list(Page<?> page, Integer state);
     @Select("SELECT * FROM post")
     List<Post> list();
-
+    @Update("UPDATE post SET view_count = view_count + 1 where id = #{id}")
+    void updateViewCount(@Param(value = "id") Integer id);
 }

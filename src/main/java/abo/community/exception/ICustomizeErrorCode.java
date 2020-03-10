@@ -5,7 +5,7 @@ package abo.community.exception;
  * @date 2020/3/2 18:19
  * @remarks
  **/
-public interface CustomizeErrorCode {
-    String message = null;
-    
+public interface ICustomizeErrorCode {
+    String getMessage();
+    Integer getCode();
 }
