@@ -1,5 +1,6 @@
 package abo.community.advice;
 
+import abo.community.dto.ResultDTO;
 import abo.community.exception.CustomizeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -17,14 +18,24 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class CustomizeExceptionHandler {
     @ExceptionHandler(Exception.class)
-    ModelAndView handler(HttpServletRequest request, Throwable ex, Model model){
-        HttpStatus status = getStatus(request);
-        if(ex instanceof CustomizeException){
-            model.addAttribute("message", ex.getMessage());
+    Object handler(HttpServletRequest request, Throwable ex, Model model){
+        HttpStatus status = getStatus(request); //没用上
+        String contentType = request.getContentType();
+        if("application/json".equals(contentType)){
+            //返回json
+            if(ex instanceof CustomizeException){
+                return ResultDTO.errorOf(ex);
+            }else{
+                model.addAttribute("message", "服务器炸了，请稍后再试 ");
+            }
         }else{
-            model.addAttribute("message", "服务器炸了，请稍后再试 ");
+            if(ex instanceof CustomizeException){
+                model.addAttribute("message", ex.getMessage());
+            }else{
+                model.addAttribute("message", "服务器炸了，请稍后再试 ");
+            }
+            return new ModelAndView("error");
         }
-        return new ModelAndView("error");
     }
 
     private HttpStatus getStatus(HttpServletRequest request){
