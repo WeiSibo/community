@@ -36,6 +36,11 @@ body{
     color: darkorange;
 }
 
+.comment-name-sty{
+    color: darkorchid;
+
+}
+
 .navigation-name-font{
     color: black;
 }
@@ -43,3 +48,55 @@ body{
 .jumbotron{
     margin: 50px;
 }
+
+.comment{
+    margin-top: 3px;
+    margin-bottom: 10px;
+    margin-left: -5px;
+}
+
+.comment-sp{
+    margin-top: 0px;
+}
+
+.comment-btn{
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+.comment-comment-count{
+    margin-bottom: 0px;
+}
+
+.menu{
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .icon{
+    margin-right: 6px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.menu .icon:hover{
+    color: #499ef3;
+}
+
+.comments{
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.content-edit{
+    margin-bottom: 10px;
+}
+
+.post-title{
+    margin-top: 25px;
+    font-weight: bold;
+}
+
+

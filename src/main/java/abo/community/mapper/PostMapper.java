@@ -21,4 +21,6 @@ public interface PostMapper extends BaseMapper<Post> {
     List<Post> list();
     @Update("UPDATE post SET view_count = view_count + 1 where id = #{id}")
     void updateViewCount(@Param(value = "id") Integer id);
+    @Update("UPDATE post SET comment_count = comment_count + 1 where id = #{id}")
+    void updateCommentCount(@Param(value = "id") Integer id);
 }

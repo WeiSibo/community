@@ -1,6 +1,7 @@
 package abo.community.dto;
 
 import abo.community.exception.CustomizeErrorCode;
+import abo.community.exception.CustomizeException;
 import lombok.Data;
 
 /**
@@ -31,7 +32,7 @@ public class ResultDTO {
         return resultDTO;
     }
 
-    public static ResultDTO errorOf(Throwable ex) {
-        return null;
+    public static ResultDTO errorOf(CustomizeException ex) {
+        return errorOf(ex.getCode(), ex.getMessage());
     }
 }

@@ -5,6 +5,7 @@ import abo.community.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author abo
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @remarks
  **/
 @Service
+@Transactional
 public class UserService {
     @Autowired(required = false)
     UserMapper userMapper;

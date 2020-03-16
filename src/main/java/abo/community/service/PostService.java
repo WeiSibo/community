@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
@@ -28,6 +29,7 @@ import java.util.List;
  * @remarks
  **/
 @Service
+@Transactional
 public class PostService {
 
     @Autowired(required = false)
@@ -98,6 +100,9 @@ public class PostService {
         if(post.getId() == null){
             post.setGmtCreate(System.currentTimeMillis());
             post.setGmtModified(post.getGmtCreate());
+            post.setViewCount(0);
+            post.setCommentCount(0);
+            post.setLikeCount(0);
             postMapper.insert(post);
         }else{
             post.setGmtModified(System.currentTimeMillis());
@@ -111,5 +116,9 @@ public class PostService {
     public void incView(Integer id) {
         //如果有人要刷阅读量，在这里制止！
         postMapper.updateViewCount(id);
+    }
+
+    public void incComment(Integer id){
+        postMapper.updateCommentCount(id);
     }
 }
