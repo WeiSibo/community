@@ -1,4 +1,6 @@
-
+/*
+    提交回复
+ */
 function post() {
     var postId = $("#post_id").val();
     var content = $("#comment_content").val();
@@ -29,4 +31,19 @@ function post() {
             contentType: 'application/json'
         }
     )
+}
+/*
+    展开二级回复
+ */
+function collapseComments(e) {
+    var id = e.getAttribute("data-id");
+    var comments = $("#comment-" + id);
+    if(!comments.hasClass("in")){
+        comments.addClass("in");
+        e.classList.add("active");
+    }else{
+        comments.removeClass("in");
+        e.classList.remove("active");
+    }
+
 }
