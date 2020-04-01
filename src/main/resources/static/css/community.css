@@ -94,6 +94,18 @@ body{
     border-bottom: 1px solid #eeeeee;
 }
 
+.sub-comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn{
+    margin: 10px 0;
+}
+
 .content-edit{
     margin-bottom: 10px;
 }

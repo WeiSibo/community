@@ -4,6 +4,10 @@
 function post() {
     var postId = $("#post_id").val();
     var content = $("#comment_content").val();
+    comment2target(postId, 1, content);
+}
+
+function comment2target(targetId, type, content) {
     if(!content){
         alert("回复内容不能为空！");
         return;
@@ -12,11 +16,12 @@ function post() {
         {
             type: "POST",
             url: "/comment",
+            contentType: 'application/json',
             data: JSON.stringify(
                 {
-                    "parentId": postId,
+                    "parentId": targetId,
                     "content": content,
-                    "type":1
+                    "type": type
                 }
             ),
             success: function(response) {
@@ -27,10 +32,15 @@ function post() {
                     alert(response.message);
                 }
             },
-            dataType: "json",
-            contentType: 'application/json'
+            dataType: "json"
         }
     )
+}
+
+function comment(e) {
+    var commentId = e.getAttribute("data-id");
+    var content = $("#input-"+commentId).val();
+    comment2target(commentId, 2, content);
 }
 /*
     展开二级回复

@@ -65,10 +65,10 @@ public class CommentService {
         }
     }
 
-    public List<CommentGetDTO> listByPostId(Integer id){
+    public List<CommentGetDTO> listByTargetId(Integer id, CommentTypeEnum type){
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("parent_id", id);
-        queryWrapper.eq("type", CommentTypeEnum.POST.getType());
+        queryWrapper.eq("type", type.getType());
         queryWrapper.orderByDesc("gmt_create");
         List<Comment> comments = commentMapper.selectList(queryWrapper);
         if(comments.size() == 0){

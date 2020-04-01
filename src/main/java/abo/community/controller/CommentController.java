@@ -1,22 +1,22 @@
 package abo.community.controller;
 
 import abo.community.dto.CommentDTO;
+import abo.community.dto.CommentGetDTO;
 import abo.community.dto.ResultDTO;
 import abo.community.entity.Comment;
 import abo.community.entity.User;
+import abo.community.enums.CommentTypeEnum;
 import abo.community.exception.CustomizeErrorCode;
 import abo.community.mapper.CommentMapper;
 import abo.community.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,5 +51,12 @@ public class CommentController {
         comment.setLikeCount(0);
         commentService.insert(comment);
         return ResultDTO.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO<List<CommentGetDTO>> comments(@PathVariable(name = "id") Integer id){
+        List<CommentGetDTO> commentGetDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentGetDTOS);
     }
 }

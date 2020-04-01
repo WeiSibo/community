@@ -2,6 +2,7 @@ package abo.community.controller;
 
 import abo.community.dto.CommentGetDTO;
 import abo.community.dto.PostDTO;
+import abo.community.enums.CommentTypeEnum;
 import abo.community.service.CommentService;
 import abo.community.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class PostController {
     public String post(@PathVariable(name = "id") Integer id,
                        Model model){
         PostDTO postDTO = postService.getById(id);
-        List<CommentGetDTO> commentsDTO = commentService.listByPostId(id);
+        List<CommentGetDTO> commentsDTO = commentService.listByTargetId(id, CommentTypeEnum.POST);
         postService.incView(id);
         model.addAttribute("post", postDTO);
         model.addAttribute("comments", commentsDTO);
